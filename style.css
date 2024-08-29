@@ -1,15 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: rgb(0,73,195);
+    background: linear-gradient(330deg, rgba(0,73,195,1) 0%, rgba(39,173,200,1) 100%);
+    background-repeat: no-repeat; /* Ensure the background doesn't repeat */
+    background-attachment: fixed; /* Ensure the background stays fixed when scrolling */
+    background-size: cover;
+    padding: 0 5%;
+}
+p, h1, li, button, input {
+    font-family: "Open Sans", sans-serif;
+    color: #f9f9f9;
+}
+
+ol {
+    margin: 10px 0 50px 25px;
+}
+
+#download-btn {
+    border-radius: 5px;
+}
+
 h1 {
     padding: 50px 0;
     text-align: center;
 }
 
-button{
-    padding: 5px;
-}
-
 .files {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
-    
+}
+
+.custom-file-upload {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.file-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    border-radius: 5px 0 0 5px;
+    padding: 5px 20px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-right: none;
+}
+
+.file-text {
+    color: #999;
+    font-family: Arial, sans-serif;
+}
+
+#upload-btn, #download-btn  {
+    background-color: #0045a7; /* Green background */
+    color: white; /* White text */
+    padding: 5px 20px;
+    border: 1px solid #0045a7;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+#upload-btn {
+    border-radius: 0 5px 5px 0;
+}
+
+#upload-btn:hover,
+#download-btn:hover {
+    background-color: #0026a3;
 }

@@ -1,8 +1,15 @@
 let selectedFile;
 
+document.getElementById("upload-btn").addEventListener("click", function() {
+  document.getElementById("input-excel").click();
+});
+
 document
   .getElementById("input-excel")
   .addEventListener("change", function (event) {
+    const showFileName = this.files[0]?.name || "Select your file!";
+    document.querySelector('.file-text').textContent = showFileName;
+
     selectedFile = event.target.files[0];
     fileName = event.target.files[0].name;
   });
@@ -31,10 +38,10 @@ function cleanThisUp(dataList) {
 
     const isRealPhone = (phone) => {
       const newCleanPhone = cleanPhone(phone);
-      if (
-        newCleanPhone.length === 10 ||
-        (newCleanPhone.length === 11 && newCleanPhone[0] == "1")
-      ) {
+      const phonePattern =
+        /^(\+?1[-.\s]?)?(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})$/;
+
+      if (phonePattern.test(newCleanPhone)) {
         return true;
       } else {
         return false;
@@ -110,31 +117,29 @@ function cleanThisUp(dataList) {
 
   const removeDuplicates = (filteredDataList) => {
     const records = [];
-    const seenEmails = new Set();
-    const seenPhones = new Set();
-  
-    filteredDataList.forEach(item => {
-      const phone = item.Phone || '';
-      const email = item.Email || '';
-      const phoneEmailKey = `${phone}|${email}`;
-  
-      if (!seenPhones.has(phone) || !seenEmails.has(email)) {
-        records.push(item);
-        seenPhones.add(phone);
-        seenEmails.add(email);
+    const seenEntries = new Map();
+
+    filteredDataList.forEach((item) => {
+      const phone = item.Phone || "";
+      const email = item.Email || "";
+      const balance = item["Contract Balance"]
+        ? parseFloat(item["Contract Balance"])
+        : 0;
+
+      const uniqueKey = `${phone}|${email}`;
+
+      if (!seenEntries.has(uniqueKey) || balance > 0 || balance < 0) {
+        seenEntries.set(uniqueKey, item);
       }
     });
-  
+
+    seenEntries.forEach((value) => records.push(value));
+
     return records;
   };
 
-
-
   return removeDuplicates(removeEmptyData);
 }
-
-
-
 
 function downloadCSVFromJson(jsonData, filename) {
   const csvRows = [];
@@ -161,83 +166,3 @@ function downloadCSVFromJson(jsonData, filename) {
   link.click();
   document.body.removeChild(link);
 }
-
-// Test
-
-// const isValidEmail = (email) => {
-//   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//   console.log(regex.test(email));
-//   return regex.test(email);
-// };
-
-// const email = "   gianna.acos   ta2120@gmail.com   ";
-
-// isValidEmail(email)
-
-// console.log(email);
-
-// console.log(email.replace(/\s+/g, ""));
-
-const list = [
-  {
-    id: 1,
-    Phone: "3479417335",
-    Email: "zindani2006@gmail.com",
-  },
-  {
-    id: 2,
-    Phone: "3479417335",
-    Email: "zindani2006@gmail.com",
-  },
-  {
-    id: 3,
-    Phone: "123456785",
-    Email: "1laura@gmail.com",
-  },
-  {
-    id: 4,
-    Phone: "",
-    Email: "2laura@gmail.com",
-  },
-  {
-      id: 5,
-      "Phone": "",
-      "Email": "2laura@gmail.com"
-  },
-  {
-      id: 6,
-      "Phone": "12345678912",
-      "Email": ""
-  },
-  {
-      id: 7,
-      "Phone": "12345678912",
-      "Email": ""
-  },
-];
-
-const removeDuplicates = (filteredDataList) => {
-    const records = [];
-    const seenEmails = new Set();
-    const seenPhones = new Set();
-  
-    filteredDataList.forEach(item => {
-      const phone = item.Phone || '';
-      const email = item.Email || '';
-      const phoneEmailKey = `${phone}|${email}`;
-  
-      // Case: Unique phone and email combination.
-      if (!seenPhones.has(phone) || !seenEmails.has(email)) {
-        records.push(item);
-        seenPhones.add(phone);
-        seenEmails.add(email);
-      }
-      // Additional logic may be needed to prioritize items with phones or emails based on further requirements.
-    });
-  
-    return records;
-  };
-  
-  
-
-console.log(removeDuplicates(list));

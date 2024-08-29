@@ -8,8 +8,28 @@
 </head>
 <body>
     <h1>Here you can clean lists of Promo and Patients with non-zero balance in Ortho2</h1>
+    <p>Make sure the Excel file includes the following columns: </p>
+
+    <ol>
+        <li>Patient Primary Code</li>
+        <li>Patient Full Name</li>
+        <li>Patient Cell Phone</li>
+        <li>Patient Email Address</li>
+        <li>ResParty First Name</li>
+        <li>ResParty Last Name</li>
+        <li>ResParty Phone</li>
+        <li>ResParty Email</li>
+        <li>Contract Balance <b>if needed</b></li>
+    </ol>
+
     <div class="files">
-        <input type="file" id="input-excel">
+        <div class="custom-file-upload">
+            <label for="input-excel" class="file-label">
+                <span class="file-text">Select your file!</span>
+            </label>
+            <input type="file" id="input-excel" style="display:none;">
+            <button id="upload-btn">UPLOAD</button>
+        </div>
         <button id="download-btn">Download</button>
     </div>
 
